@@ -1,27 +1,43 @@
 # main.py
 
-# Importation des classes depuis les fichiers séparés
-from joueur import Joueur
-from monstre import Monstre
-from arme import Arme
+from personnages import Joueur, Monstre
 
-def combat(joueur, monstre):
-    while joueur.est_vivant() and monstre.est_vivant():
-        joueur.attaquer(monstre)
-        if monstre.est_vivant():
-            monstre.attaquer(joueur)
-        print("---")
-    
-    if joueur.est_vivant():
-        print(f"{joueur.nom} a gagné le combat!")
-    else:
-        print(f"{monstre.nom} a gagné le combat!")
+def creer_sequence_combat(sequence):
+    liste_combat = []
+    for char in sequence:
+        if char == 'J':
+            liste_combat.append(Joueur())
+        elif char == 'D':
+            liste_combat.append(Monstre())
+    return liste_combat
 
-if __name__ == "__main__":
-    # Créer une instance de Joueur et Monstre
-    epee = Arme("Épée légendaire", 10)
-    joueur1 = Joueur("Héros", 50, epee)
-    monstre1 = Monstre("Dragon", 40, 8)
 
-    # Lancer un combat
-    combat(joueur1, monstre1)
+def combat(liste_combat):
+    i = 0
+    while len(liste_combat) > 1:
+        print(f"--- Tour {i+1} ---")
+        attaquant = liste_combat[i]
+        defenseur = liste_combat[(i + 1) % len(liste_combat)]
+
+        if attaquant.est_vivant() and defenseur.est_vivant():
+            attaquant.attaquer(defenseur)
+
+        if not defenseur.est_vivant():
+            print(f"{defenseur.nom} est mort!")
+            liste_combat.remove(defenseur)
+
+        i = (i + 1) % len(liste_combat)
+
+    print("---")
+    if liste_combat[0].est_vivant():
+        print(f"{liste_combat[0].nom} a gagné le combat!")
+
+
+# Séquence de combat: DDDDDJDDD
+sequence_combat = "DDDDDJDDD"
+
+# Créer les personnages selon la séquence
+liste_combat = creer_sequence_combat(sequence_combat)
+
+# Lancer le combat
+combat(liste_combat)

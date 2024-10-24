@@ -47,8 +47,7 @@
 # jeu = JeuRPG(root)
 # root.mainloop()
 
-import tkinter as tk
-from tkinter import ttk, scrolledtext
+
 
 class RPGCombatApp:
     def __init__(self, root):
@@ -105,7 +104,3 @@ class RPGCombatApp:
         # Forcer le défilement automatique vers le bas
         self.text_area.yview(tk.END)
 
-# Lancer l'application
-root = tk.Tk()
-app = RPGCombatApp(root)
-root.mainloop()
